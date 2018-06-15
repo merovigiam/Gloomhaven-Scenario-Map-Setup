@@ -2934,59 +2934,22 @@ function createMap()
 		}
 
 		for _,tMap in ipairs(t[NumScenario]) do
-		--for _,tBag in ipairs(Bag_MapTiles.getObjects()) do
-			--
-			--[1] = {
-			--	{
-			--		tile		= "G1"
-			--		,position	= {x=0.874285, y=1.759086, z=6.063714}
-			--		,rotation	= {x=0.000250, y=0.024955, z=180.000763}
-			--	}
-			--	,{
-			--		tile		= "I1"
-			--		,position	= {x=-5.687230, y=1.752955, z=5.304418}
-			--		,rotation	= {x=0.795132, y=179.994095, z=179.999222}
-			--	}
-			--	,{
-			--		tile		= "L1"
-			--		,position	= {x=0.889695, y=-3.775473, z=-3.034077}
-			--		,rotation	= {x=-0.000249, y=180.008926, z=-0.000768}
-			--	}
-			--}
-				--if tBag.name == tMap.tile then
-				
-				
-				local obj_parameters = {}
-				obj_parameters.type = 'Custom_Model'
-				obj_parameters.position = tMap.position
-				obj_parameters.rotation = tMap.rotation
-				obj = spawnObject(obj_parameters)
-				obj.setLock(true)
-				custom = {}
-				custom.mesh = allTheMapTiles[tMap.tile][1]
-				custom.diffuse = allTheMapTiles[tMap.tile][2]
-				custom.material = 1
-				obj.setCustomObject(custom)
-				obj.setName(debugCounter)
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-					--tMap.guid			= tBag.guid
-					--tMap.smooth			= false
-					--tMap.callback		= "spawnCallback"
-					--tMap.callback_owner	= self
-					--tMap.params			= {lock = true}
+			
+			local obj_parameters = {}
+			obj_parameters.type = 'Custom_Model'
+			obj_parameters.position = tMap.position
+			obj_parameters.rotation = tMap.rotation
+			--obj_parameters.nickname = tMap.tile
+			obj = spawnObject(obj_parameters)
+			obj.setLock(true)
+			
+			custom = {}
+			custom.mesh = allTheMapTiles[tMap.tile][1]
+			custom.diffuse = allTheMapTiles[tMap.tile][2]
+			custom.material = 1
+			obj.setCustomObject(custom)
+			obj.setName(tMap.tile)
 
-					--Bag_MapTiles.takeObject(tMap)
-				--end
-			--end
 		end
 		return 1
 	end
@@ -17910,35 +17873,45 @@ function createMap()
 
 		for _,tBag in ipairs(t[NumScenario]) do
 			for _,tType in ipairs(tBag.type) do
-				getObjectFromGUID(Bag_InfiniteBag_GUID).reset()
-
-				if tType.name == "Coin 1" then
-					getObjectFromGUID(Bag_InfiniteBag_GUID).putObject(
-						getObjectFromGUID(Infinite_Coin1_GUID).takeObject({smooth = false})
-					)
-				else
-					for _,tBag_Source in ipairs(getObjectFromGUID(tBag.bag).getObjects()) do
-						if tType.name == tBag_Source.name then
-							getObjectFromGUID(Bag_InfiniteBag_GUID).putObject(
-								getObjectFromGUID(tBag.bag).takeObject({
-									guid = tBag_Source.guid
-									,smooth = false
-								})
-							)
-						end
-					end
-				end
-
 				for _,tTile in ipairs(tType.tile) do
-					tTile.smooth = false
-					tTile.callback = "spawnCallback"
-					tTile.callback_owner = self
-					if tTile.params == nil then tTile.params = {} end
-					if tTile.params.lock == nil then
-						tTile.params.lock = true
+					
+					if(tType.name == "Coin 1") then
+						local obj_parameters = {}
+						obj_parameters.type = 'Custom_Token'
+						obj_parameters.position = tTile.position
+						obj_parameters.rotation = tTile.rotation
+						obj_parameters.scale = {0.38, 1.00, 0.38}
+						
+						--obj_parameters.nickname = tMap.tile
+						obj = spawnObject(obj_parameters)
+						
+						paramsCustom = {
+							image = 'http://cloud-3.steamusercontent.com/ugc/83721958669669224/E3E1295D7B0F051D7AA322674A25AB52F646B85C/',
+							thickness = 0.12,
+							merge_distance = 15,
+							stackable = true
+						}
+						
+						obj.setCustomObject(paramsCustom)
+						obj.setName(tType.name)
+					else 
+						
+						local obj_parameters = {}
+						obj_parameters.type = 'Custom_Model'
+						obj_parameters.position = tTile.position
+						obj_parameters.rotation = tTile.rotation
+						--obj_parameters.nickname = tMap.tile
+						obj = spawnObject(obj_parameters)
+						obj.setLock(true)
+						
+						custom = {}
+						custom.mesh = allTheObjects[tType.name][1]
+						custom.collider = allTheObjects[tType.name][1]
+						custom.diffuse = allTheObjects[tType.name][2]
+						custom.material = 1
+						obj.setCustomObject(custom)
+						obj.setName(tType.name)
 					end
-
-					getObjectFromGUID(Bag_InfiniteBag_GUID).takeObject(tTile)
 				end
 			end
 		end
@@ -18746,4 +18719,66 @@ allTheMapTiles = {['L2'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599
 ['H1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677880318/162CCE87AB3E4B2A1147C2A7384CD9F65F5E49AB/'} , 
 ['I1'] = {'http://cloud-3.steamusercontent.com/ugc/802048152546136215/85825BE7478C08ABC1C96A0CD06D5EEE0D34C4F5/','http://cloud-3.steamusercontent.com/ugc/802048152546127872/BDB4F4C57D2CDB7EBEB3C1D67F36EDD2F8BAC0CB/'} , 
 ['G2'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140199162/F8A8783AB59B297FA261895C15ACDB33C3101206/','http://cloud-3.steamusercontent.com/ugc/802048562944492994/89242BB19171EF08C5FAAC75E4C7F5A7497B8800/'} 
+}
+
+
+
+
+allTheObjects = {['Treasure Chest Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128231995/FF18CE3D5CF469D349FF094D7621F35D2D690E7E/'} , 
+['Treasure Chest Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065692270/3D5176DFC33BE0AC13E7BBA1A23BC40B88480B49/'} , 
+['Hot Coals 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891599539752/B6C79AF76662558CB3ECC7B31DF00567962D7961/'} , 
+['Hot Coals 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244656065520967/E27867C410131BBF662082F5BAE8EDA47FBB8F42/'} , 
+['Hot Coals 3'] = {'http://cloud-3.steamusercontent.com/ugc/802048562944608067/7C6D8D4F54EDA0210E0C27CA127E4F3941707937/','http://cloud-3.steamusercontent.com/ugc/875244656065620372/040E776071240F09C4FF87E213759E754495D071/'} , 
+['Thorns'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391140979668/55563C2223D19FC44775A2787947248FAAEAE5A7/'} , 
+['Stone Door Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/875244656065514661/02EAF3AFA27CF19CCF6A1A77B37F349517AF3611/'} , 
+['Stone Door Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/802048152546220388/C181B4A53C920B8D6CF1D1C4DFC61513C9FB7057/'} , 
+['Dark Fog'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/875244468232619595/0D734223A535DCFB2BA357D3EDBB6E14B6910BEF/'} , 
+['Spike Trap'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/802047834669627945/48B796A39C4CCB08910B39832EB52EEE1336C790/'} , 
+['Log'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83722391140982867/494C706DA2ED566D8DAA1A6478428E0BE2545166/'} , 
+['Rubble'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891611911546/CA70EAC4ED45D01B9DB8A55DC157F69A40DD781B/'} , 
+['Earth Corridor 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891599494871/00F862D6B5CB25E89C666D65CD2862BF9CA0F13E/'} , 
+['Earth Corridor 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83722391141090318/F81E88196A2B98A9193B9E966F97E8DEDB907E2D/'} , 
+['Man Stone Corridor 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244468232666187/E2822EA481A74EE412C92340F1BD250959A72947/'} , 
+['Man Stone Corridor 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244468232756686/863477ABC440769E4931FE83C97B0515F06813B9/'} , 
+['Pressure Plate'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/802048152546593921/56844E4918A8BAC082EA1116A808392C9E0B606C/'} , 
+['Wooden Corridor 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244468232666761/3C53984E626CE7A6DC4586B3188F979596FBF0A7/'} , 
+['Bear Trap'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83721958675842054/FD7DA328151E02C2116F97769B2205DD4544EBB2/'} , 
+['Poison Gas'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128230364/494F2F861F980800352F54D4FD00AC004EEEBEE8/'} , 
+['Wooden Corridor 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83721958669626124/5FEFE31B876469250F6C6B586582D62CD28389B4/'} , 
+['Stairs Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128274583/8CA463FD3885871B39D26AE1930AF35465560074/'} , 
+['Stairs Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128261083/AC5DB293E39709A44279E427DA3BAB2A88CA844E/'} , 
+['Water 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128233223/33C9CEE0F85B069281726DC04ECBB28D85CA820A/'} , 
+['Water 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244656065521674/9F7CEF40096C987777B155A31EEB9D646CB160EF/'} , 
+['Stone Corridor 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891599522130/F989782505CD1657E58FEE0A91682670554BF6D4/'} , 
+['Stone Corridor 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244468232757314/E1B6F305194385F06BC4D37D740E152758417AE9/'} , 
+['Water 3'] = {'http://cloud-3.steamusercontent.com/ugc/802048562944608067/7C6D8D4F54EDA0210E0C27CA127E4F3941707937/','http://cloud-3.steamusercontent.com/ugc/875244656065619255/126893F63C7EE50C723E53A5067C7219CB677260/'} , 
+['LIght Fog'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/875244468232620736/26CA5060B314637080E0E8EFC5146DF226C42F86/'} , 
+['Wooden Door Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/83722391128366173/B80EA353B6F74167420670A7B3C9D4D61034538A/'} , 
+['Wooden Door Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83722391128365550/DEB708227991687C3022A86F49D86206392EB877/','http://cloud-3.steamusercontent.com/ugc/83722391128368061/8F26DDD8891708056F9E64ADB2F309A233ACBE13/'} , 
+['Wall Section'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244656065519934/3A7D80E0A1C9A917AF869DB741A68CF203847C79/'} , 
+['Tree'] = {'http://cloud-3.steamusercontent.com/ugc/83722391141011936/ECE63C2A354D7E832CEB67F368D4F76F8C7F8DD7/','http://cloud-3.steamusercontent.com/ugc/83722391140985138/374A2F04838BDC93EE86366C38044755507EEA55/'} , 
+['Totem'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391140980718/1D1AE577AF3C977428EB6A073601BA19884F4942/'} , 
+['Table'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83722891599505650/FED7465DD372D6958E492BB4B8A4A22098C7CAEB/'} , 
+['Stump'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391140978180/9693DE4816A74B035515CE631F5454C8D09E81C9/'} , 
+['Stone Pillar'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891611900662/09BC7042814EAD0FBA638B032C3606D0F626CE5E/'} , 
+['Stalagmites'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/802048562944618973/2E8C2BF2F2824127431FAFF3B4D63342DBD26F9B/'} , 
+['Shelf'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83722391128241835/2C45A4B6FD14A2F9181049F6C9607815ED3768EB/'} , 
+['Sarcophagus B'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244468232525452/369DD3F6241A3B79D0F09999D4E3EB0F329B1C7C/'} , 
+['Sarcophagus A'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/802048562938772696/EC1D14D6BF812F63FD0C72E6AAB2232E4A518383/'} , 
+['Rock Column'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/802048562944644041/C7FBE53A654430523E69FEA025E9BBDF23BEA007/'} , 
+['Nest'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065519031/5747BCC064E27505F54E277E1E6236EDD09994AF/'} , 
+['Fountain'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065518204/F3FDCD484410DD540CBA972D11BEC8D506B156CF/'} , 
+['Dark Pit'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/83722391128240948/5CC94879812EC8D314CE47DCBF37B3D04929FF7F/'} , 
+['Crystal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065517489/94D5D035B8BB64869ABED5E6B0F9422D2FFBBEF8/'} , 
+['Crate B'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065516279/B80FD4273328707C7BDC96288B90F23B351CA19C/'} , 
+['Crate A'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065516927/FAB47B7FABF7768ECCD01887EDEA49DECBDF4147/'} , 
+['Cabinet'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83721528738705488/1BC41B1296BC27984BA50CDCA1026181E42A5477/'} , 
+['Bush 1'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244468232642063/9E7826348FEF1BF8B17C42D67573158D76F1437E/'} , 
+['Boulder 3'] = {'http://cloud-3.steamusercontent.com/ugc/802048562944608067/7C6D8D4F54EDA0210E0C27CA127E4F3941707937/','http://cloud-3.steamusercontent.com/ugc/802048562944608381/92DD474416E98C91ABF2FC6888F3A088755743BB/'} , 
+['Boulder 2'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/802048562944610090/E8B8E5B9E828B8D68E9EB7F0983E80F9497AABB1/'} , 
+['Boulder'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128239231/ECFAA8D897C5950DA1AE2AB7BD396582B53F581C/'} , 
+['Bookcase'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738804766/219FECA0BA9B6D8758161AB3EC85D157CEB20EB1/','http://cloud-3.steamusercontent.com/ugc/875244468232558012/978B7355577B6B9E4BE0370C1502B672A7DAB0B5/'} , 
+['Barrel'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83721528738779719/EC94DB858B1C55C7C68D111C839FD74F49F2EB9B/'} , 
+['Altar Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244468232439199/4F1C58B1DE6E3999E2D0F207C503BA9A500F52EF/'} , 
+['Altar Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891611903816/58F3379303B47B150145BBC91E307233461D205D/'} 
 }
