@@ -164,86 +164,86 @@ end
 ------------
 function createMap()
 	--Create Map "Global" Variables
-	local Bag_MapTiles_GUID
-	local Bag_DifficultTerrain_GUID
-	local Bag_Corridors_GUID
-	local Bag_Traps_GUID
-	local Bag_Obstacles_GUID
-	local Bag_Doors_GUID
-	local Bag_HazardousTerrain_GUID
-	local Bag_ObjectiveTokens_GUID
-	local Bag_ScenarioAidTokens_GUID
-	local Bag_TreasureChests_GUID
-
-	local Bag_InfiniteBag_GUID
+	--local Bag_MapTiles_GUID
+	--local Bag_DifficultTerrain_GUID
+	--local Bag_Corridors_GUID
+	--local Bag_Traps_GUID
+	--local Bag_Obstacles_GUID
+	--local Bag_Doors_GUID
+	--local Bag_HazardousTerrain_GUID
+	--local Bag_ObjectiveTokens_GUID
+	--local Bag_ScenarioAidTokens_GUID
+	--local Bag_TreasureChests_GUID
+    --
+	--local Bag_InfiniteBag_GUID
 
 
 	--Take a Bag from Infinite
-	takeBagFromInfinite(getObjectFromGUID(Infinite_MapTiles_GUID),"CreateMap_MapTiles")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_DifficultTerrain_GUID),"CreateMap_DifficultTerrain")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_Corridors_GUID),"CreateMap_Corridors")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_Traps_GUID),"CreateMap_Traps")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_Obstacles_GUID),"CreateMap_Obstacles")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_Doors_GUID),"CreateMap_Doors")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_HazardousTerrain_GUID),"CreateMap_HazardousTerrain")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_ObjectiveTokens_GUID),"CreateMap_ObjectiveTokens")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_ScenarioAidTokens_GUID),"CreateMap_ScenarioAidTokens")
-	takeBagFromInfinite(getObjectFromGUID(Infinite_TreasureChests_GUID),"CreateMap_TreasureChests")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_MapTiles_GUID),"CreateMap_MapTiles")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_DifficultTerrain_GUID),"CreateMap_DifficultTerrain")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_Corridors_GUID),"CreateMap_Corridors")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_Traps_GUID),"CreateMap_Traps")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_Obstacles_GUID),"CreateMap_Obstacles")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_Doors_GUID),"CreateMap_Doors")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_HazardousTerrain_GUID),"CreateMap_HazardousTerrain")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_ObjectiveTokens_GUID),"CreateMap_ObjectiveTokens")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_ScenarioAidTokens_GUID),"CreateMap_ScenarioAidTokens")
+	--takeBagFromInfinite(getObjectFromGUID(Infinite_TreasureChests_GUID),"CreateMap_TreasureChests")
 
 
 	--Create Infinite Bag
-	spawnObject({
-		type			= "Infinite_Bag"
-		,position		= {x=-57.344707, y=1.493657, z=-22.819818}
-		,sound			= false
-		,callback		= "spawnCallback"
-		,callback_owner = self
-		,params			= {
-			name	= "CreateMap_InfiniteBag"
-			,lock	= true
-		}
-	})
+	--spawnObject({
+	--	type			= "Infinite_Bag"
+	--	,position		= {x=-57.344707, y=1.493657, z=-22.819818}
+	--	,sound			= false
+	--	,callback		= "spawnCallback"
+	--	,callback_owner = self
+	--	,params			= {
+	--		name	= "CreateMap_InfiniteBag"
+	--		,lock	= true
+	--	}
+	--})
 
 
 	--Move Spawner Out the Way
-	function moveSpawner()
-		wait(1)
-		self.setPositionSmooth(
-			{x=-12.687500, y=1.797193, z=28.037571}
-			,false
-			,true
-		)
-		return 1
-	end
-	startLuaCoroutine(self, "moveSpawner")
+	--function moveSpawner()
+	--	wait(1)
+	--	self.setPositionSmooth(
+	--		{x=-12.687500, y=1.797193, z=28.037571}
+	--		,false
+	--		,true
+	--	)
+	--	return 1
+	--end
+	--startLuaCoroutine(self, "moveSpawner")
 
 
 	--Find GUIDs of standard bags after delay
-	function registerBags_Maps()
-		wait(Delay_BagRegister)
-		local AllObjects = getAllObjects()
-		local t = {
-			CreateMap_MapTiles				= function(x) Bag_MapTiles_GUID = x end
-			,CreateMap_DifficultTerrain		= function(x) Bag_DifficultTerrain_GUID = x end
-			,CreateMap_Corridors			= function(x) Bag_Corridors_GUID = x end
-			,CreateMap_Traps				= function(x) Bag_Traps_GUID = x end
-			,CreateMap_Obstacles			= function(x) Bag_Obstacles_GUID = x end
-			,CreateMap_Doors				= function(x) Bag_Doors_GUID = x end
-			,CreateMap_HazardousTerrain		= function(x) Bag_HazardousTerrain_GUID = x end
-			,CreateMap_ObjectiveTokens		= function(x) Bag_ObjectiveTokens_GUID = x end
-			,CreateMap_ScenarioAidTokens	= function(x) Bag_ScenarioAidTokens_GUID = x end
-			,CreateMap_TreasureChests		= function(x) Bag_TreasureChests_GUID = x end
-
-			,CreateMap_InfiniteBag			= function(x) Bag_InfiniteBag_GUID = x end
-		}
-		for _,obj in ipairs(AllObjects) do
-			if string.sub(obj.getName(),1,10) == "CreateMap_" then
-				t[obj.getName()](obj.getGUID())
-			end
-		end
-		return 1
-	end
-	startLuaCoroutine(self, "registerBags_Maps")
+	--function registerBags_Maps()
+	--	wait(Delay_BagRegister)
+	--	local AllObjects = getAllObjects()
+	--	local t = {
+	--		CreateMap_MapTiles				= function(x) Bag_MapTiles_GUID = x end
+	--		,CreateMap_DifficultTerrain		= function(x) Bag_DifficultTerrain_GUID = x end
+	--		,CreateMap_Corridors			= function(x) Bag_Corridors_GUID = x end
+	--		,CreateMap_Traps				= function(x) Bag_Traps_GUID = x end
+	--		,CreateMap_Obstacles			= function(x) Bag_Obstacles_GUID = x end
+	--		,CreateMap_Doors				= function(x) Bag_Doors_GUID = x end
+	--		,CreateMap_HazardousTerrain		= function(x) Bag_HazardousTerrain_GUID = x end
+	--		,CreateMap_ObjectiveTokens		= function(x) Bag_ObjectiveTokens_GUID = x end
+	--		,CreateMap_ScenarioAidTokens	= function(x) Bag_ScenarioAidTokens_GUID = x end
+	--		,CreateMap_TreasureChests		= function(x) Bag_TreasureChests_GUID = x end
+    --
+	--		,CreateMap_InfiniteBag			= function(x) Bag_InfiniteBag_GUID = x end
+	--	}
+	--	for _,obj in ipairs(AllObjects) do
+	--		if string.sub(obj.getName(),1,10) == "CreateMap_" then
+	--			t[obj.getName()](obj.getGUID())
+	--		end
+	--	end
+	--	return 1
+	--end
+	--startLuaCoroutine(self, "registerBags_Maps")
 
 
 	--Spawn Scenario Page
@@ -2939,6 +2939,7 @@ function createMap()
 			obj_parameters.type = 'Custom_Model'
 			obj_parameters.position = tMap.position
 			obj_parameters.rotation = tMap.rotation
+			obj_parameters.scale = {allTheMapTiles[tMap.tile][3][1], allTheMapTiles[tMap.tile][3][2], allTheMapTiles[tMap.tile][3][3]  }
 			--obj_parameters.nickname = tMap.tile
 			obj = spawnObject(obj_parameters)
 			obj.setLock(true)
@@ -18689,40 +18690,37 @@ end
 
 
 --object data
-allTheMapTiles = {['L2'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/802048386390896281/43D2225AAB090BFFBB6F17110B6976871CCDFFBA/'} , 
-['I2'] = {'http://cloud-3.steamusercontent.com/ugc/802048152546136215/85825BE7478C08ABC1C96A0CD06D5EEE0D34C4F5/','http://cloud-3.steamusercontent.com/ugc/928183875658027078/D75B9FBAF56FE061634EDC68A70E418EEE64F5A1/'} , 
-['K2'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232281023/55572ACC96212B3388AC64A76A3A82D02E281AEE/','http://cloud-3.steamusercontent.com/ugc/863985014568834768/A98C9BD0ADBE792A0B025D7C0BF0441D0E9282F7/'} , 
-['G1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140199162/F8A8783AB59B297FA261895C15ACDB33C3101206/','http://cloud-3.steamusercontent.com/ugc/83722391140199619/7EBC404DBAFF2373B75D982B7A33E5CB34F91FFD/'} , 
-['A3'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/802048562938730633/14A02CCF63C7FA45B6E8DEEB8914D5299533B332/'} , 
-['N1'] = {'http://cloud-3.steamusercontent.com/ugc/802048562944496110/B7AA4E4C49A1CEA27C97090EEBFDC25EA0009A46/','http://cloud-3.steamusercontent.com/ugc/802048562944496560/B53C7E41C99E15B622D840394FF78AC486914EBB/'} , 
-['B3'] = {'http://cloud-3.steamusercontent.com/ugc/802047973668669991/C509EF9EF97403C0C612D7D02D6B6CDBA1CC6987/','http://cloud-3.steamusercontent.com/ugc/802047973668654088/E857569A16C29194C7CC511724E6FC3ADC4B35F4/'} , 
-['H3'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677989557/96027C60F80BD04EC11C43F94018102BC245230A/'} , 
-['F1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232169382/251067F8092335B5CE772D9B7F1993084A58CF88/','http://cloud-3.steamusercontent.com/ugc/863985014571152087/E24C2EDCA435222EF0BDDBB53BC175407884BE99/'} , 
-['K1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232281023/55572ACC96212B3388AC64A76A3A82D02E281AEE/','http://cloud-3.steamusercontent.com/ugc/863985014568461211/47220AF3B0D66B1C5EFDFF85A579A62C1E60C06C/'} , 
-['E1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232069996/993F69505A6CC24ED906D251A4D2CFECAA00BF64/','http://cloud-3.steamusercontent.com/ugc/863985014571132187/A39BC02A7AD7A07E42E75D7C0B7D7121A185E4E8/'} , 
-['L3'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/863985014569248796/F45BD795E02F146CD3A9A1D193E6DE361B65E8D7/'} , 
-['A2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/802048562938727950/D189BE023398632DC89DD84CD121EEEA1CC9A0F0/'} , 
-['B2'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83721958684100417/00CCC7A3B71F1F535A43407C0DCA51C196C91679/'} , 
-['B4'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83722891599343654/03F71A5A0C7CB83953F89CE385005845F1F0C612/'} , 
-['L1'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/83722891599338968/905996632299E4F788392070F0ED4AC170EE3B5D/'} , 
-['D1'] = {'http://cloud-3.steamusercontent.com/ugc/83722891611846459/66038720EFAFB3BE5D7232EAF4F0433AD52CF0D6/','http://cloud-3.steamusercontent.com/ugc/83722891611847427/5B8F3FEDB114AC8C8332CB11889DB33FB4476CBF/'} , 
-['A1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/83721958684075069/AFD7F49F6B43634134959A94DD652A65A632941C/'} , 
-['M1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140191201/CBC468A064138817853D6106C1DE2AC48A9D65FB/','http://cloud-3.steamusercontent.com/ugc/83722391140147372/4E55A159785653540B0F2C5984C823709D6B42A2/'} , 
-['J1'] = {'http://cloud-3.steamusercontent.com/ugc/802047661689178905/6DD2545C79B524302C5DEC09B0D8F495681B3B51/','http://cloud-3.steamusercontent.com/ugc/802047661689179670/3814548473F493C0245706EDF1D01BFEA73B0471/'} , 
-['H2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677905342/6D32F0BA97BBD5C8D2196CDBEE7B20FD279F52E7/'} , 
-['C2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684061598/216FD3B93206D3563EFB432D653B1023428A7706/','http://cloud-3.steamusercontent.com/ugc/863985014569241871/EA0E681D787C54FE5B0D319EEF69A03EFCA621A0/'} , 
-['A4'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/83722391140204849/EE9E9D85576486F58C518CF6CBDFB00BF08352E5/'} , 
-['D2'] = {'http://cloud-3.steamusercontent.com/ugc/83722891611846459/66038720EFAFB3BE5D7232EAF4F0433AD52CF0D6/','http://cloud-3.steamusercontent.com/ugc/863985014569244468/854372DFC79BEDFC18D4205FF18BEACE451ACB40/'} , 
-['J2'] = {'http://cloud-3.steamusercontent.com/ugc/802047661689178905/6DD2545C79B524302C5DEC09B0D8F495681B3B51/','http://cloud-3.steamusercontent.com/ugc/863985014569246699/EB9AF143171953202097C209FFD82E034803EC96/'} , 
-['B1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83722391140195969/F885D1EC3CC10E6876E090C79C3E00665FDA349F/'} , 
-['C1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684061598/216FD3B93206D3563EFB432D653B1023428A7706/','http://cloud-3.steamusercontent.com/ugc/83721958684062489/4736A568BED40621759B5489AAB0CECDDBFDD05E/'} , 
-['H1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677880318/162CCE87AB3E4B2A1147C2A7384CD9F65F5E49AB/'} , 
-['I1'] = {'http://cloud-3.steamusercontent.com/ugc/802048152546136215/85825BE7478C08ABC1C96A0CD06D5EEE0D34C4F5/','http://cloud-3.steamusercontent.com/ugc/802048152546127872/BDB4F4C57D2CDB7EBEB3C1D67F36EDD2F8BAC0CB/'} , 
-['G2'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140199162/F8A8783AB59B297FA261895C15ACDB33C3101206/','http://cloud-3.steamusercontent.com/ugc/802048562944492994/89242BB19171EF08C5FAAC75E4C7F5A7497B8800/'} 
+allTheMapTiles = {['I2'] = {'http://cloud-3.steamusercontent.com/ugc/802048152546136215/85825BE7478C08ABC1C96A0CD06D5EEE0D34C4F5/','http://cloud-3.steamusercontent.com/ugc/928183875658027078/D75B9FBAF56FE061634EDC68A70E418EEE64F5A1/', { 1,1,1} } , 
+['L2'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/802048386390896281/43D2225AAB090BFFBB6F17110B6976871CCDFFBA/', { 1,1,1} } , 
+['K2'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232281023/55572ACC96212B3388AC64A76A3A82D02E281AEE/','http://cloud-3.steamusercontent.com/ugc/863985014568834768/A98C9BD0ADBE792A0B025D7C0BF0441D0E9282F7/', { 0.825000166893005,0.825000166893005,0.825000166893005} } , 
+['G1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140199162/F8A8783AB59B297FA261895C15ACDB33C3101206/','http://cloud-3.steamusercontent.com/ugc/83722391140199619/7EBC404DBAFF2373B75D982B7A33E5CB34F91FFD/', { 1,1,1} } , 
+['A3'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/802048562938730633/14A02CCF63C7FA45B6E8DEEB8914D5299533B332/', { 1,1,1} } , 
+['N1'] = {'http://cloud-3.steamusercontent.com/ugc/802048562944496110/B7AA4E4C49A1CEA27C97090EEBFDC25EA0009A46/','http://cloud-3.steamusercontent.com/ugc/802048562944496560/B53C7E41C99E15B622D840394FF78AC486914EBB/', { 1,1,1} } , 
+['B3'] = {'http://cloud-3.steamusercontent.com/ugc/802047973668669991/C509EF9EF97403C0C612D7D02D6B6CDBA1CC6987/','http://cloud-3.steamusercontent.com/ugc/802047973668654088/E857569A16C29194C7CC511724E6FC3ADC4B35F4/', { 1,1,1} } , 
+['H3'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677989557/96027C60F80BD04EC11C43F94018102BC245230A/', { 1,1,1} } , 
+['F1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232169382/251067F8092335B5CE772D9B7F1993084A58CF88/','http://cloud-3.steamusercontent.com/ugc/863985014571152087/E24C2EDCA435222EF0BDDBB53BC175407884BE99/', { 0.207146942615509,0.100000001490116,0.208648860454559} } , 
+['K1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232281023/55572ACC96212B3388AC64A76A3A82D02E281AEE/','http://cloud-3.steamusercontent.com/ugc/863985014568461211/47220AF3B0D66B1C5EFDFF85A579A62C1E60C06C/', { 0.825000166893005,0.825000166893005,0.825000166893005} } , 
+['E1'] = {'http://cloud-3.steamusercontent.com/ugc/875244468232069996/993F69505A6CC24ED906D251A4D2CFECAA00BF64/','http://cloud-3.steamusercontent.com/ugc/863985014571132187/A39BC02A7AD7A07E42E75D7C0B7D7121A185E4E8/', { 0.207924619317055,0.097728818655014,0.20656418800354} } , 
+['L3'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/863985014569248796/F45BD795E02F146CD3A9A1D193E6DE361B65E8D7/', { 1,1,1} } , 
+['A2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/802048562938727950/D189BE023398632DC89DD84CD121EEEA1CC9A0F0/', { 1,1,1} } , 
+['B2'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83721958684100417/00CCC7A3B71F1F535A43407C0DCA51C196C91679/', { 1,1,1} } , 
+['B4'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83722891599343654/03F71A5A0C7CB83953F89CE385005845F1F0C612/', { 1,1,1} } , 
+['L1'] = {'http://cloud-3.steamusercontent.com/ugc/83722891599338299/02E41F15350C60685BEF5A5F7F739314D0468840/','http://cloud-3.steamusercontent.com/ugc/83722891599338968/905996632299E4F788392070F0ED4AC170EE3B5D/', { 1,1,1} } , 
+['D1'] = {'http://cloud-3.steamusercontent.com/ugc/83722891611846459/66038720EFAFB3BE5D7232EAF4F0433AD52CF0D6/','http://cloud-3.steamusercontent.com/ugc/83722891611847427/5B8F3FEDB114AC8C8332CB11889DB33FB4476CBF/', { 1,1,1} } , 
+['A1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/83721958684075069/AFD7F49F6B43634134959A94DD652A65A632941C/', { 1,1,1} } , 
+['M1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140191201/CBC468A064138817853D6106C1DE2AC48A9D65FB/','http://cloud-3.steamusercontent.com/ugc/83722391140147372/4E55A159785653540B0F2C5984C823709D6B42A2/', { 1,1,1} } , 
+['J1'] = {'http://cloud-3.steamusercontent.com/ugc/802047661689178905/6DD2545C79B524302C5DEC09B0D8F495681B3B51/','http://cloud-3.steamusercontent.com/ugc/802047661689179670/3814548473F493C0245706EDF1D01BFEA73B0471/', { 1,1,1} } , 
+['H2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677905342/6D32F0BA97BBD5C8D2196CDBEE7B20FD279F52E7/', { 1,1,1} } , 
+['C2'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684061598/216FD3B93206D3563EFB432D653B1023428A7706/','http://cloud-3.steamusercontent.com/ugc/863985014569241871/EA0E681D787C54FE5B0D319EEF69A03EFCA621A0/', { 1,1,1} } , 
+['A4'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684093483/D77C00D85CC3FFAF785716362E4353362F198BFB/','http://cloud-3.steamusercontent.com/ugc/83722391140204849/EE9E9D85576486F58C518CF6CBDFB00BF08352E5/', { 1,1,1} } , 
+['D2'] = {'http://cloud-3.steamusercontent.com/ugc/83722891611846459/66038720EFAFB3BE5D7232EAF4F0433AD52CF0D6/','http://cloud-3.steamusercontent.com/ugc/863985014569244468/854372DFC79BEDFC18D4205FF18BEACE451ACB40/', { 1,1,1} } , 
+['J2'] = {'http://cloud-3.steamusercontent.com/ugc/802047661689178905/6DD2545C79B524302C5DEC09B0D8F495681B3B51/','http://cloud-3.steamusercontent.com/ugc/863985014569246699/EB9AF143171953202097C209FFD82E034803EC96/', { 1,1,1} } , 
+['B1'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140246344/68EE0655821DBD75C2C8934489DB4F322EE960A2/','http://cloud-3.steamusercontent.com/ugc/83722391140195969/F885D1EC3CC10E6876E090C79C3E00665FDA349F/', { 1,1,1} } , 
+['C1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958684061598/216FD3B93206D3563EFB432D653B1023428A7706/','http://cloud-3.steamusercontent.com/ugc/83721958684062489/4736A568BED40621759B5489AAB0CECDDBFDD05E/', { 1,1,1} } , 
+['H1'] = {'http://cloud-3.steamusercontent.com/ugc/83721958677917505/517A0C5BCDB59858CEF2302169BA88B2911AB48C/','http://cloud-3.steamusercontent.com/ugc/83721958677880318/162CCE87AB3E4B2A1147C2A7384CD9F65F5E49AB/', { 1,1,1} } , 
+['I1'] = {'http://cloud-3.steamusercontent.com/ugc/802048152546136215/85825BE7478C08ABC1C96A0CD06D5EEE0D34C4F5/','http://cloud-3.steamusercontent.com/ugc/802048152546127872/BDB4F4C57D2CDB7EBEB3C1D67F36EDD2F8BAC0CB/', { 1,1,1} } , 
+['G2'] = {'http://cloud-3.steamusercontent.com/ugc/83722391140199162/F8A8783AB59B297FA261895C15ACDB33C3101206/','http://cloud-3.steamusercontent.com/ugc/802048562944492994/89242BB19171EF08C5FAAC75E4C7F5A7497B8800/', { 1,1,1} } 
 }
-
-
-
 
 allTheObjects = {['Treasure Chest Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722391128231995/FF18CE3D5CF469D349FF094D7621F35D2D690E7E/'} , 
 ['Treasure Chest Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244656065692270/3D5176DFC33BE0AC13E7BBA1A23BC40B88480B49/'} , 
