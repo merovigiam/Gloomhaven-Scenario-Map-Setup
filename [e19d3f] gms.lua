@@ -20,7 +20,7 @@ Delay_BagRegister = 1
 Delay_Spawning = 2
 Delay_Delete = 4
 
-
+GlobalMoveMe = {}
 
 
 ---------------
@@ -102,6 +102,9 @@ function onSave()
 	return SavedData
 end
 
+
+spawnedButtonCount = 0
+
 function onLoad(SavedData)
 	if SavedData ~= "" then
 		local LoadedData = JSON.decode(SavedData)
@@ -118,6 +121,8 @@ function onLoad(SavedData)
 	self.createButton(Button_CreateMap)
 
 	numScenario_Update(NumScenario)
+    createCheckbox()
+
 end
 
 
@@ -245,9 +250,9 @@ function createMap()
 	--end
 	--startLuaCoroutine(self, "registerBags_Maps")
 
-
 	--Spawn Scenario Page
 	function spawnScenarioPage()
+		if(includeScenarioBook) then
 		wait(Delay_Spawning)
 
 		local t = {
@@ -677,7 +682,19 @@ function createMap()
 		}
 
 
+		GlobalMoveMe = self.getPosition()
+		GlobalMoveMe.z = GlobalMoveMe.z - 20
+		--GlobalMoveMe.x = GlobalMoveMe.x - 20
+		GlobalMoveMe.y = GlobalMoveMe.y - 1.76
+		
 		local position = {x=-19.687500, y=1.750121, z=3.788861}
+		
+		position.x = position.x + GlobalMoveMe.x
+		position.y = position.y + GlobalMoveMe.y
+		position.z = position.z + GlobalMoveMe.z
+	
+		
+		
 		if #t[NumScenario] == 2 then position.x = position.x - 19 end
 
 		for _,i in ipairs(t[NumScenario]) do
@@ -694,7 +711,7 @@ function createMap()
 			spawnObject(i).setCustomObject(i)
 			position.x = position.x + 19
 		end
-
+		end
 		return 1
 	end
 	startLuaCoroutine(self, "spawnScenarioPage")
@@ -703,8 +720,12 @@ function createMap()
 	--Spawn Map Tiles
 	function spawnMapTiles()
 		wait(Delay_Spawning)
+		GlobalMoveMe = self.getPosition()
+		GlobalMoveMe.z = GlobalMoveMe.z - 20
+		GlobalMoveMe.y = GlobalMoveMe.y - 1.76
+		--thePositionDown.y = thePositionDown.y - 15
+		
 
-		local Bag_MapTiles = getObjectFromGUID(Bag_MapTiles_GUID)
 
 		local t = {
 			--Scenario 1
@@ -2938,6 +2959,9 @@ function createMap()
 			local obj_parameters = {}
 			obj_parameters.type = 'Custom_Model'
 			obj_parameters.position = tMap.position
+			obj_parameters.position.x = obj_parameters.position.x + GlobalMoveMe.x
+			obj_parameters.position.y = obj_parameters.position.y + GlobalMoveMe.y
+			obj_parameters.position.z = obj_parameters.position.z + GlobalMoveMe.z
 			obj_parameters.rotation = tMap.rotation
 			obj_parameters.scale = {allTheMapTiles[tMap.tile][3][1], allTheMapTiles[tMap.tile][3][2], allTheMapTiles[tMap.tile][3][3]  }
 			--obj_parameters.nickname = tMap.tile
@@ -2960,7 +2984,11 @@ function createMap()
 	--Spawn Tiles
 	function spawnTiles()
 		wait(Delay_Spawning)
-		local Bag_InfiniteBag = getObjectFromGUID(Bag_InfiniteBag_GUID)
+		
+		GlobalMoveMe = self.getPosition()
+		GlobalMoveMe.z = GlobalMoveMe.z - 20
+		GlobalMoveMe.y = GlobalMoveMe.y - 1.76
+		
 
 		local t = {
 			--Scenario 1
@@ -17880,6 +17908,9 @@ function createMap()
 						local obj_parameters = {}
 						obj_parameters.type = 'Custom_Token'
 						obj_parameters.position = tTile.position
+			obj_parameters.position.x = obj_parameters.position.x + GlobalMoveMe.x
+			obj_parameters.position.y = obj_parameters.position.y + GlobalMoveMe.y
+			obj_parameters.position.z = obj_parameters.position.z + GlobalMoveMe.z
 						obj_parameters.rotation = tTile.rotation
 						obj_parameters.scale = {0.38, 1.00, 0.38}
 						
@@ -17900,6 +17931,9 @@ function createMap()
 						local obj_parameters = {}
 						obj_parameters.type = 'Custom_Model'
 						obj_parameters.position = tTile.position
+			obj_parameters.position.x = obj_parameters.position.x + GlobalMoveMe.x
+			obj_parameters.position.y = obj_parameters.position.y + GlobalMoveMe.y
+			obj_parameters.position.z = obj_parameters.position.z + GlobalMoveMe.z
 						obj_parameters.rotation = tTile.rotation
 						--obj_parameters.nickname = tMap.tile
 						obj = spawnObject(obj_parameters)
@@ -17924,6 +17958,8 @@ function createMap()
 
 	--Spawn Enemies
 	function spawnEnemies()
+		if(includeEnemyBags) then 
+		
 		wait(Delay_Spawning)
 		local AllObjects = getAllObjects()
 
@@ -18610,7 +18646,7 @@ function createMap()
 
 			position.z = position.z - 5
 		end
-
+	end
 		return 1
 	end
 	startLuaCoroutine(self, "spawnEnemies")
@@ -18780,3 +18816,66 @@ allTheObjects = {['Treasure Chest Horizontal'] = {'http://cloud-3.steamuserconte
 ['Altar Horizontal'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/875244468232439199/4F1C58B1DE6E3999E2D0F207C503BA9A500F52EF/'} , 
 ['Altar Vertical'] = {'http://cloud-3.steamusercontent.com/ugc/83721528738764794/4991992B121C950439220491B89158F7D80A1888/','http://cloud-3.steamusercontent.com/ugc/83722891611903816/58F3379303B47B150145BBC91E307233461D205D/'} 
 }
+
+--Makes checkboxes
+function createCheckbox()
+    for i, data in ipairs(defaultButtonData.checkbox) do
+        --Sets up reference function
+        local buttonNumber = spawnedButtonCount
+        local funcName = "checkbox"..i
+        local func = function(but, what) click_checkbox(i, buttonNumber, but, what) end
+        self.setVar(funcName, func)
+        --Sets up label
+        local label = ""
+        if data.state==true then label=string.char(10008) end
+        --Creates button and counts it
+        self.createButton({
+            label=label, click_function=funcName, function_owner=self,
+            position=data.pos, height=data.size, width=data.size,
+            font_size=data.size, scale=buttonScale,tooltip=data.tooltip,
+            color=buttonColor, font_color=buttonFontColor
+        })
+        spawnedButtonCount = spawnedButtonCount + 1
+    end
+end
+
+
+defaultButtonData = {
+    checkbox = {
+        {
+            pos   = {-0.6,0.1,0.45},
+            size  = 200,
+            state = false,
+			tooltip = 'Include the creation of the Scenario page to the left of the area.'
+        },{
+            pos   = {-0.92,0.1,0.80},
+            size  = 200,
+            state = false,
+			tooltip = 'Include the bags containing the enemies from the selected scenario.'
+        }
+	}
+}
+
+function click_checkbox(tableIndex, buttonIndex, but, what)
+
+    if(tableIndex == 1) then
+		includeScenarioBook = not includeScenarioBook
+		
+		if(includeScenarioBook) then
+			self.editButton({index=6, label=string.char(10008)})		
+		else 
+			self.editButton({index=6, label=""})
+		end
+	elseif(tableIndex == 2) then
+		includeEnemyBags = not includeEnemyBags
+		if(includeEnemyBags) then
+			self.editButton({index=7, label=string.char(10008)})		
+		else 
+			self.editButton({index=7, label=""})
+		end
+	end
+	
+end
+
+includeScenarioBook = false
+includeEnemyBags = false
